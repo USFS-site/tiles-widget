@@ -77,12 +77,12 @@
       rows.slice(1).forEach(row => {
         const title = row[0]?.trim();
         const link = row[1]?.trim();
-        const iconContent = row[2]?.trim();
-        const isExternalLink = row[3]?.trim().toUpperCase();
+        const iconContent = row[2]?.trim(); 
+        const isExternalLink = row[3]?.trim().toUpperCase(); // New variable to check for external links
         
         const tileBgColor = bgParam || "#4863AE"; // Use URL param or default
         const tileTextColor = textParam || "#ffffff"; // Use URL param or default
-        
+
         if (title && link) {
           const a = document.createElement("a");
           a.href = link;
@@ -99,7 +99,7 @@
           a.style.setProperty('--text-color', tileTextColor);
 
           const iconContainer = document.createElement("div");
-          iconContainer.className = "tile-icon-container";
+          iconContainer.className = "tile-icon-container mb-2";
 
           if (iconContent && iconContent.startsWith('<svg')) {
             // It's a raw SVG, create an element from the string
