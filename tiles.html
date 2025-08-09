@@ -77,8 +77,8 @@
       rows.slice(1).forEach(row => {
         const title = row[0]?.trim();
         const link = row[1]?.trim();
-        // The third column can now contain either an image URL or raw SVG code
-        const iconContent = row[2]?.trim(); 
+        const iconContent = row[2]?.trim();
+        const isExternalLink = row[3]?.trim().toUpperCase();
         
         const tileBgColor = bgParam || "#4863AE"; // Use URL param or default
         const tileTextColor = textParam || "#ffffff"; // Use URL param or default
