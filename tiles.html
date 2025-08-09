@@ -15,7 +15,7 @@
   .tile {
     --bg-color: #4863AE;
     --text-color: #ffffff;
-    background: linear-gradient(to bottom, var(--bg-color), #232769);
+    background: linear-gradient(to bottom, var(--bg-color), #001489);
     color: var(--text-color);
   }
   .tile-icon {
@@ -28,8 +28,8 @@
     width: 2.5rem;
     height: 2.5rem;
     margin-bottom: 0.5rem;
-    fill: currentColor;
-    stroke: currentColor;
+    fill: #ffffff;
+    stroke: #ffffff;
   }
 </style>
 </head>
@@ -84,7 +84,7 @@
         if (title && link) {
           const a = document.createElement("a");
           a.href = link;
-          a.className = "tile flex flex-col justify-center items-center text-center p-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl min-h-[150px] font-semibold text-lg leading-tight";
+          a.className = "tile flex flex-col justify-center items-center text-center p-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl w-full min-h-[300px] font-semibold text-lg leading-tight";
           
           // Set custom colors via CSS variables
           a.style.setProperty('--bg-color', tileBgColor);
