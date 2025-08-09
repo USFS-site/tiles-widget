@@ -86,7 +86,8 @@
         if (title && link) {
           const a = document.createElement("a");
           a.href = link;
-          a.className = "tile flex flex-col items-start pt-8 pb-4 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl w-full min-h-[180px] font-bold text-xl leading-tight";          
+          a.className = "tile flex flex-col justify-center items-center text-center p-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl w-full min-h-[180px] font-semibold text-xl leading-tight";
+          
           // Set custom colors via CSS variables
           a.style.setProperty('--bg-color', tileBgColor);
           a.style.setProperty('--text-color', tileTextColor);
