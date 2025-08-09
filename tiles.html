@@ -82,13 +82,15 @@
         
         const tileBgColor = bgParam || "#4863AE"; // Use URL param or default
         const tileTextColor = textParam || "#ffffff"; // Use URL param or default
-
+        
         if (title && link) {
           const a = document.createElement("a");
           a.href = link;
-          // Check if the link is external before setting the target
+          // Check if the link is external based on the new isExternalLink variable
           if (isExternalLink === 'TRUE') {
             a.target = "_blank";
+          } else {
+            a.target = "_parent";
           }
           a.className = "tile flex flex-col items-center text-center p-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl w-full min-h-[180px] font-semibold text-xl leading-tight";
           
