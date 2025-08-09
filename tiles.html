@@ -17,7 +17,7 @@
     gap: 15px;
   }
   .tile {
-    background: linear-gradient(#1a4dd7, #0d2a7a);
+    background: linear-gradient(#4863AE, #232769);
     color: white;
     text-align: center;
     padding: 20px;
@@ -27,12 +27,15 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    font: italic;
+    min-height: 150px;   /* taller box */
+    line-height: 1.4;    /* more space between lines */
     min-height: 120px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   .tile:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   }
 </style>
 </head>
