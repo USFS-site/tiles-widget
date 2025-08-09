@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Tiles</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: white;
+    margin: 0;
+    padding: 20px;
+  }
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  .tile {
+    background: linear-gradient(#1a4dd7, #0d2a7a);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    min-height: 120px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  }
+</style>
+</head>
+<body>
+
+<div class="tile-grid" id="tileContainer">Loading...</div>
+
+<script>
+  // Get CSV URL from iframe parameter
+  const params = new URLSearchParams(window.location.search);
+  const sheetUrl = params.get("sheet");
+
+  async function loadTiles() {
+    if (!sheetUrl) {
+      document.getElementById("tileContainer").textContent = "No sheet URL provided.";
+      return;
+    }
+
+    try {
+      const res = await fetch(sheetUrl);
+      const text = await res.text();
+
+      // Parse CSV - basic split by comma (won't handle quoted commas)
+      const rows = text.trim().split("\n").map(r => r.split(","));
+
+      const container = document.getElementById("tileContainer");
+      container.innerHTML = ""; // Clear loading text
+
+      // Skip header row
+      rows.slice(1).forEach(row => {
+        const title = row[0]?.trim();
+        const link = row[1]?.trim();
+        if (title && link) {
+          const a = document.createElement("a");
+          a.className = "tile";
+          a.href = link;
+          a.textContent = title;
+          container.appendChild(a);
+        }
+      });
+
+    } catch (err) {
+      document.getElementById("tileContainer").textContent = "Error loading tiles.";
+      console.error(err);
+    }
+  }
+
+  loadTiles();
+</script>
+
+</body>
+</html>
