@@ -90,29 +90,36 @@
           a.style.setProperty('--bg-color', tileBgColor);
           a.style.setProperty('--text-color', tileTextColor);
 
-          if (iconContent) {
-            // Check if the content is an embedded SVG
-            if (iconContent.startsWith('<svg')) {
-              a.innerHTML += iconContent;
-            } else {
-              // Otherwise, assume it's a URL and create an <img> element
-              const img = document.createElement("img");
-              img.src = iconContent;
-              img.alt = title + " icon";
-              img.className = "tile-icon";
-              // Add a fallback for broken images
-              img.onerror = function() {
-                  const tempDiv = document.createElement('div');
-                  tempDiv.innerHTML = genericIconSvg;
-                  a.appendChild(tempDiv.firstChild);
-                  this.remove();
-              };
-              a.appendChild(img);
-            }
+          let iconElement;
+
+          // Check if iconContent is a URL or raw SVG
+          if (iconContent && iconContent.startsWith('<svg')) {
+            // It's a raw SVG, create an element from the string
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = iconContent;
+            iconElement = tempDiv.firstChild;
+            iconElement.classList.add('tile-icon');
+          } else if (iconContent && (iconContent.startsWith('http') || iconContent.startsWith('/'))) {
+            // It's a URL, create an <img> element
+            iconElement = document.createElement("img");
+            iconElement.src = iconContent;
+            iconElement.alt = title + " icon";
+            iconElement.className = "tile-icon";
+            // Add a fallback for broken images
+            iconElement.onerror = function() {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = genericIconSvg;
+                a.insertBefore(tempDiv.firstChild, this);
+                this.remove();
+            };
           } else {
-            // Use the generic SVG icon if no icon data is provided
-            a.innerHTML += genericIconSvg;
+            // No valid icon content, use the generic SVG
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = genericIconSvg;
+            iconElement = tempDiv.firstChild;
           }
+
+          a.appendChild(iconElement);
           
           const titleSpan = document.createElement("span");
           titleSpan.textContent = title;
