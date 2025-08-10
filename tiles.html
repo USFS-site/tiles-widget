@@ -43,10 +43,25 @@
 <script>
   // Get URL parameters and define defaults
   const params = new URLSearchParams(window.location.search);
-  const sheetUrl = params.get("sheet");
+  // Base published Google Sheet CSV link
+  const baseSheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRBD-3kZ4tX8-t9cf2gFkte2_Nv8NBd2qbH6FNBcfcVHSCv5zF4_NEBLR1u_xHlztfoofbIEJ2Jzo6A/pub";
+  // Get the gid from URL (or use 0 for the first sheet)
+  const gid = params.get("gid") || "0";
+  // Build final CSV URL
+  const sheetUrl = `${baseSheetUrl}?gid=${gid}&single=true&output=csv`;
+
   const bgParam = params.get("bg");
   const textParam = params.get("text");
+  
+  // If the sheet URL contains ? or &, encode it to avoid breaking the query
+  if (sheetUrl && /[?&]/.test(sheetUrl) && !sheetUrl.startsWith('http%')) {
+    sheetUrl = encodeURIComponent(sheetUrl);
+  }
 
+  // Decode in case it’s already encoded
+  if (sheetUrl) {
+    sheetUrl = decodeURIComponent(sheetUrl);
+  }
   // Get the tile container
   const container = document.getElementById("tileContainer");
 
