@@ -53,15 +53,6 @@
   const bgParam = params.get("bg");
   const textParam = params.get("text");
   
-  // If the sheet URL contains ? or &, encode it to avoid breaking the query
-  if (sheetUrl && /[?&]/.test(sheetUrl) && !sheetUrl.startsWith('http%')) {
-    sheetUrl = encodeURIComponent(sheetUrl);
-  }
-
-  // Decode in case it’s already encoded
-  if (sheetUrl) {
-    sheetUrl = decodeURIComponent(sheetUrl);
-  }
   // Get the tile container
   const container = document.getElementById("tileContainer");
 
