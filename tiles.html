@@ -6,6 +6,8 @@
 <title>Dynamic Tiles</title>
 <!-- Tailwind CSS for modern styling -->
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- PapaParse for robust CSV parsing -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -57,13 +59,12 @@
   const container = document.getElementById("tileContainer");
 
   // A basic, generic SVG icon to be used as a fallback if no icon data is provided.
-  // The fill and stroke are now hardcoded to white.
   const genericIconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="tile-icon" viewBox="0 0 24 24" stroke="#ffffff" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>';
 
   // Load and render tiles from the CSV
   async function loadTiles() {
     if (!sheetUrl) {
-      container.innerHTML = '<div class="text-center text-red-500 font-bold col-span-full">No sheet URL provided. Please add `?sheet=YOUR_CSV_URL` to the address.</div>';
+      container.innerHTML = '<div class="text-center text-red-500 font-bold col-span-full">No sheet URL provided. Please add `?gid=SHEET_GID` to the address.</div>';
       return;
     }
 
@@ -74,30 +75,36 @@
       }
       const text = await res.text();
 
-      // Simple CSV parsing - splits by new line, then by comma
-      const rows = text.trim().split("\n").map(r => r.split(","));
+      // Parse CSV safely with PapaParse
+      const parsed = Papa.parse(text, { header: false });
+      let rows = parsed.data;
 
       container.innerHTML = ""; // Clear loading text
+
+      // Remove empty rows
+      rows = rows.filter(row => row.some(cell => cell && cell.trim() !== ""));
 
       // Create tiles for each row, skipping the header
       rows.slice(1).forEach(row => {
         const title = row[0]?.trim();
         const link = row[1]?.trim();
         const iconContent = row[2]?.trim(); 
-        const isExternalLink = row[3]?.trim().toUpperCase(); // New variable to check for external links
-        
-        const tileBgColor = bgParam || "#4863AE"; // Use URL param or default
-        const tileTextColor = textParam || "#ffffff"; // Use URL param or default
+        const isExternalLink = row[3]?.trim().toUpperCase();
+
+        const tileBgColor = bgParam || "#4863AE";
+        const tileTextColor = textParam || "#ffffff";
 
         if (title && link) {
           const a = document.createElement("a");
           a.href = link;
-          // Check if the link is external based on the new isExternalLink variable
+
+          // External link check
           if (isExternalLink === 'TRUE') {
             a.target = "_blank";
           } else {
             a.target = "_parent";
           }
+
           a.className = "tile flex flex-col items-center text-center p-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl w-full min-h-[180px] font-semibold text-xl leading-tight";
           
           // Set custom colors via CSS variables
@@ -108,25 +115,21 @@
           iconContainer.className = "tile-icon-container mb-2";
 
           if (iconContent && iconContent.startsWith('<svg')) {
-            // It's a raw SVG, create an element from the string
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = iconContent;
             iconContainer.appendChild(tempDiv.firstChild);
           } else if (iconContent && (iconContent.startsWith('http') || iconContent.startsWith('/'))) {
-            // It's a URL, create an <img> element
             const img = document.createElement("img");
             img.src = iconContent;
             img.alt = title + " icon";
-            // Add a fallback for broken images
             img.onerror = function() {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = genericIconSvg;
-                iconContainer.innerHTML = '';
-                iconContainer.appendChild(tempDiv.firstChild);
+              const tempDiv = document.createElement('div');
+              tempDiv.innerHTML = genericIconSvg;
+              iconContainer.innerHTML = '';
+              iconContainer.appendChild(tempDiv.firstChild);
             };
             iconContainer.appendChild(img);
           } else {
-            // No valid icon content, use the generic SVG
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = genericIconSvg;
             iconContainer.appendChild(tempDiv.firstChild);
