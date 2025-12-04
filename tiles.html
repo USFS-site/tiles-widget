@@ -16,15 +16,12 @@
   /* CSS variables for dynamic colors */
   .tile {
     --bg-color: #4863AE;
-    --text-color: #ffffff;
     background: linear-gradient(to bottom, var(--bg-color), #232769);
-    color: var(--text-color);
     border-radius: 20px !important;
   }
   .tile-icon-container {
     height: 3rem;
     width: 3rem;
-    margin-bottom: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -110,7 +107,6 @@
           
           // Set custom colors via CSS variables
           a.style.setProperty('--bg-color', tileBgColor);
-          a.style.setProperty('--text-color', tileTextColor);
 
           const iconContainer = document.createElement("div");
           iconContainer.className = "tile-icon-container mb-4";
