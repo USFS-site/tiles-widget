@@ -37,7 +37,7 @@
   }
 </style>
 </head>
-<body class="bg-gray-100 p-8">
+<body class="p-8">
 
 <div class="tile-grid grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="tileContainer">
   <div class="text-center text-gray-500 font-medium col-span-full">Loading tiles...</div>
@@ -106,7 +106,7 @@
             a.target = "_parent";
           }
 
-          a.className = "tile flex flex-col items-center text-center p-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl w-full min-h-[180px] font-semibold text-xl leading-tight";
+          a.className = "tile flex flex-col items-center text-center p-6 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl w-full min-h-[180px] font-semibold text-xl leading-tight";
           
           // Set custom colors via CSS variables
           a.style.setProperty('--bg-color', tileBgColor);
