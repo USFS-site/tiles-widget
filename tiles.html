@@ -22,11 +22,13 @@
     border-radius: 10px !important;
   }
   .tile-icon-container {
-    height: 3rem;
-    width: 3rem;
+    height: 3.5rem;
+    width: 3.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
   }
   .tile-icon-container svg,
   .tile-icon-container img {
@@ -105,7 +107,7 @@
             a.target = "_parent";
           }
 
-          a.className = "tile flex flex-col items-center justify-between text-center p-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl w-full min-h-[190px] font-semibold text-xl leading-tight";
+          a.className = "tile flex flex-col items-center text-center p-6 pt-10 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl w-full min-h-[190px] font-semibold text-xl leading-tight";
           
           // Set custom colors via CSS variables
           a.style.setProperty('--bg-color', tileBgColor);
